@@ -16,64 +16,64 @@ let s:extension_map = {
   \   'vim': ['vim'],
   \ }
 
-function! s:find_paths(extension)
-  let base = expand('%:p:h')
-  let current = getcwd()
-  let find_paths = base == current ? [base] : [base, current]
-
-  if has_key(s:additinal_find_paths, a:extension)
-    for relative in s:additinal_find_paths[a:extension]
-      let path = simplify(base . '/' . relative)
-      if index(find_paths, path) == -1
-        call add(find_paths, path)
-      endif
-    endfor
-  endif
-  return find_paths
+function! s:path_info(fullpath)
+  return {
+    \   'directory': fnamemodify(a:fullpath, ':p:h'),
+    \   'name': fnamemodify(a:fullpath, ':t:r'),
+    \   'extension': fnamemodify(a:fullpath, ':e'),
+    \ }
 endfunction
 
 function! s:target_extensions(extension)
   if !has_key(s:extension_map, a:extension)
-    if len(a:extension)
-      echo a:extension.' is not supported.'
-    else
-      echo 'No buffer name.'
-    endif
-    return
+    return []
   endif
 
   return s:extension_map[a:extension]
 endfunction
 
-function! s:target_file_names(extensions)
-  let base_name = expand('%:t:r')
+function! s:find_paths(path_info)
+  if a:path_info['directory'] == getcwd()
+    let find_paths = [a:path_info['directory']]
+  else
+    let find_paths = [a:path_info['directory'], getcwd()]
+  endif
+
+  if has_key(s:additinal_find_paths, a:path_info['extension'])
+    for relative in s:additinal_find_paths[a:path_info['extension']]
+      let path = simplify(a:path_info['directory'] . '/' . relative)
+      if index(find_paths, path) == -1
+        call add(find_paths, path)
+      endif
+    endfor
+  endif
+
+  return find_paths
+endfunction
+
+function! s:target_file_names(path_info)
   let file_names = []
 
-  for extension in a:extensions
-    let file_name = base_name.'.'.extension
+  for extension in s:target_extensions(a:path_info['extension'])
+    let file_name = a:path_info['name'] . '.' . extension
+
     if index(file_names, file_name) == -1
       call add(file_names, file_name)
     endif
   endfor
+
   return file_names
 endfunction
 
-function! s:switch_candidates()
-  let extension = expand('%:e')
-  let extensions = s:target_extensions(extension)
-
-  if type(extensions) == 0
-    return
-  endif
-
+function! s:switch_candidates(base_file)
+  let path_info = s:path_info(a:base_file)
   let candidates = []
-  let current_buffer = expand('%:p')
 
-  for dir_name in s:find_paths(extension)
-    for file_name in s:target_file_names(extensions)
+  for dir_name in s:find_paths(path_info)
+    for file_name in s:target_file_names(path_info)
       let path = simplify(dir_name . '/' . file_name)
 
-      if path == current_buffer
+      if path == a:base_file
         continue
       endif
 
@@ -87,12 +87,16 @@ function! s:switch_candidates()
 endfunction
 
 function! reversal#switch_buffer()
-  let candidates = s:switch_candidates()
+  let base_file = expand('%:p')
 
-  if len(candidates) > 0
-    execute 'edit '.candidates[0]
-  else
-    echo 'can not find target file.'
+  if len(base_file) > 0
+    let candidates = s:switch_candidates(base_file)
+
+    if len(candidates) > 0
+      execute 'edit '.candidates[0]
+    else
+      echo 'Can not find pair file.'
+    endif
   endif
 endfunction
 
