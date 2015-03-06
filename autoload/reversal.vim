@@ -77,9 +77,10 @@ function! s:switch_candidates()
         continue
       endif
 
-    if index(candidates, path) == -1 && filereadable(path)
-      call add(candidates, path)
-    endif
+      if index(candidates, path) == -1 && filereadable(path)
+        call add(candidates, path)
+      endif
+    endfor
   endfor
 
   return candidates
@@ -90,6 +91,8 @@ function! reversal#switch_buffer()
 
   if len(candidates) > 0
     execute 'edit '.candidates[0]
+  else
+    echo 'can not find target file.'
   endif
 endfunction
 
