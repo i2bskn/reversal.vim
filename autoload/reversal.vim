@@ -33,15 +33,15 @@ function! s:target_extensions(extension)
 endfunction
 
 function! s:find_paths(path_info)
-  if a:path_info['directory'] == getcwd()
-    let find_paths = [a:path_info['directory']]
+  if a:path_info.directory == getcwd()
+    let find_paths = [a:path_info.directory]
   else
-    let find_paths = [a:path_info['directory'], getcwd()]
+    let find_paths = [a:path_info.directory, getcwd()]
   endif
 
-  if has_key(s:additinal_find_paths, a:path_info['extension'])
-    for relative in s:additinal_find_paths[a:path_info['extension']]
-      let path = simplify(a:path_info['directory'] . '/' . relative)
+  if has_key(s:additinal_find_paths, a:path_info.extension)
+    for relative in s:additinal_find_paths[a:path_info.extension]
+      let path = simplify(a:path_info.directory . '/' . relative)
       if index(find_paths, path) == -1
         call add(find_paths, path)
       endif
@@ -54,8 +54,8 @@ endfunction
 function! s:target_file_names(path_info)
   let file_names = []
 
-  for extension in s:target_extensions(a:path_info['extension'])
-    let file_name = a:path_info['name'] . '.' . extension
+  for extension in s:target_extensions(a:path_info.extension)
+    let file_name = a:path_info.name . '.' . extension
 
     if index(file_names, file_name) == -1
       call add(file_names, file_name)
