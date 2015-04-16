@@ -10,8 +10,9 @@ let s:additinal_find_paths = {
   \ }
 
 let s:extension_map = {
+  \   'c': ['h'],
   \   'cpp': ['h', 'hpp'],
-  \   'h': ['cpp'],
+  \   'h': ['c', 'cpp'],
   \   'hpp': ['cpp'],
   \   'vim': ['vim'],
   \ }
