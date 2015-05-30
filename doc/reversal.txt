@@ -1,32 +1,32 @@
 *reversal.txt*	Switch buffer to the corresponding file.
 
-Author:	i2bskn <i2bskn@gmail.com>
-LICENSE:	MIT
+Author : i2bskn <i2bskn@gmail.com>
+LICENSE: MIT
 
 ==============================================================================
-CONTENTS	      *reversal-contents*
+CONTENTS                                                     *reversal-contents*
 
 Introduction	|reversal-introduction|
-Options	|reversal-options|
-Usage	|reversal-usage|
+Options		|reversal-options|
+Usage		|reversal-usage|
 
 ==============================================================================
-INTRODUCTION							*reversal-introduction*
+INTRODUCTION                                             *reversal-introduction*
 
 *reversal.vim* is Vim plugin to switch buffer to the corresponding file.
 (ex: some.c <=> some.h, autoload/some.vim <=> plugin/some.vim)
 
 ==============================================================================
-OPTIONS							*reversal-options*
+OPTIONS                                                       *reversal-options*
 
-							*g:reversal_get_root_command*
+                                                   *g:reversal_get_root_command*
 External command for obtaining the root path.
 Current directory as the root if no settings.
 example: >
 
 	let g:reversal_get_root_command = 'git rev-parse --show-toplevel'
 <
-							*g:reversal_namespace_delimiter*
+                                                *g:reversal_namespace_delimiter*
 Delimiter if the corresponding file contains the namespace.
 example: >
 
@@ -36,7 +36,7 @@ example: >
 
 	ex: plugins/foo-bar.vim <=> autoload/foo/bar.vim
 <
-							*g:reversal_extension_map*
+                                                      *g:reversal_extension_map*
 Mapping of the extension of the corresponding file.
 example: >
 
@@ -45,7 +45,7 @@ example: >
 	  \   'cpp': ['h', 'hpp'],
 	  \ }
 <
-							*g:reversal_search_paths*
+                                                       *g:reversal_search_paths*
 Path to search for the corresponding file.
 example: >
 
@@ -54,7 +54,7 @@ example: >
 	  \ }
 <
 ==============================================================================
-USAGE							*reversal-usage*
+USAGE                                                           *reversal-usage*
 
 Switch buffer to corresponding file by: >
 
