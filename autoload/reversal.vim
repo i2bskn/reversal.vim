@@ -137,7 +137,7 @@ function! reversal#switch_buffer()
     let file = s:switch_file(s:path_info(base_file, &filetype))
 
     if empty(file)
-      echomsg 'Can not find pair file'
+      echomsg 'Can not find corresponding file'
     else
       execute 'edit ' . file
     endif
