@@ -1,8 +1,10 @@
 # reversal.vim
 
-Switch buffer to pair file.
+Switch buffer to the corresponding file.
 
 ## Install
+
+With [NeoBundle](https://github.com/Shougo/neobundle.vim):
 
 ```
 NeoBundle 'i2bskn/reversal.vim'
@@ -12,9 +14,13 @@ NeoBundle 'i2bskn/reversal.vim'
 
 Open file and execute `Reversal` command.
 
-## Settings
+```
+:Reversal
+```
+
+or add mapping to `.vimrc`:
 
 ```
-nmap <Space>w <Plug>(reversal:switch_buffer)
+nmap ,w <Plug>(reversal:switch_buffer)
 ```
 

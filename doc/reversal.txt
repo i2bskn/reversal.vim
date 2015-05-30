@@ -62,7 +62,7 @@ Switch buffer to corresponding file by: >
 <
 If may add map into your vimrc like below: >
 
-	nnoremap ,w :<C-u>Reversal<CR>
+	nmap ,w <Plug>(reversal:switch_buffer)
 <
 
 ==============================================================================
