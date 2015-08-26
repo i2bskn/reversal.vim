@@ -71,7 +71,7 @@ function! s:target_filenames(path_info)
   let extensions = extend(
     \  copy(get(exists('g:reversal_extension_map') ?
     \    g:reversal_extension_map : {}, a:path_info.ftype, [])),
-    \  get(s:extension_map, a:path_info.ftype, []),
+    \  get(s:extension_map, a:path_info.extension, []),
     \ )
 
   for basename in basenames
